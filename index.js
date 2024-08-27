@@ -148,6 +148,9 @@ class Game {
         console.log(`Incremented round number: ${this.roundNumber}`);
         console.log(`Current pot: ${this.pot}`);
         
+        // Remove players with negative chips
+        this.players = this.players.filter(player => player.chips > 0);
+        
         for (let player of this.players) {
             player.hand = [];
             player.folded = false;
@@ -167,6 +170,28 @@ class Game {
         this.dealInitialCards();
         this.renderGame();
         this.checkTotalChips();
+
+        // Check if the game should end
+        if (this.players.length <= 1) {
+            this.endGame();
+        }
+    }
+
+    endGame() {
+        const gameAreaElement = document.getElementById('game-area');
+        gameAreaElement.innerHTML = '<h2>Game Over</h2>';
+        if (this.players.length === 1) {
+            gameAreaElement.innerHTML += `<p>${this.players[0].name} wins the game!</p>`;
+        } else {
+            gameAreaElement.innerHTML += '<p>All players have been eliminated.</p>';
+        }
+        // Add a button to restart the game
+        const restartButton = document.createElement('button');
+        restartButton.textContent = 'Start New Game';
+        restartButton.addEventListener('click', () => {
+            location.reload(); // Reload the page to start a new game
+        });
+        gameAreaElement.appendChild(restartButton);
     }
 
     dealInitialCards() {

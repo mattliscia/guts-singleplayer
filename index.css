@@ -179,3 +179,61 @@ button {
 .spacer {
     flex-grow: 1;
 }
+
+#opponent-selection {
+    max-width: 300px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #f0f0f0;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+#opponent-selection h2 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+    color: #333;
+}
+
+#opponent-count {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+#start-game {
+    width: 100%;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#start-game:hover {
+    background-color: #45a049;
+}
+
+@media (max-width: 480px) {
+    #opponent-selection {
+        max-width: 90%;
+        padding: 15px;
+    }
+
+    #opponent-selection h2 {
+        font-size: 1rem;
+    }
+
+    #opponent-count,
+    #start-game {
+        font-size: 0.9rem;
+    }
+}

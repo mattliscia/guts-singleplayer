@@ -5,9 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Play Guts</title>
     <link rel="stylesheet" href="index.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
-    <div id="game-container">
+    <div id="opponent-selection">
+        <h2>Select number of AI opponents:</h2>
+        <select id="opponent-count">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+        </select>
+        <button id="start-game">Start Game</button>
+    </div>
+
+    <div id="game-container" style="display: none;">
         <div id="game-area"></div>
         <div id="game-controls">
             <div id="pot"></div>

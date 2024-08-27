@@ -16,6 +16,7 @@ thresholds.push(...[20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140]);
 
 function generateRandomPlayer(numPlayers) {
     const rangeDict = {
+        2: [0, 0.6],
         3: [0, 0.7],
         4: [0.1, 0.8],
         5: [0.2, 0.9],
@@ -86,12 +87,12 @@ class Deck {
 }
 
 class Player {
-    constructor(name, isAI = false) {
+    constructor(name, isAI = false, game) {
         this.name = name;
         this.isAI = isAI;
         this.hand = [];
         this.folded = false;
-        this.threshold = isAI ? generateRandomPlayer(4) : 0; // Using 4 players for this game
+        this.threshold = isAI ? generateRandomPlayer(game.players.length) : 0;
         this.chips = 100; // Starting chips
     }
 
@@ -125,17 +126,11 @@ class Player {
 }
 
 class Game {
-    constructor() {
-        this.players = [
-            new Player('You'),
-            new Player('AI 1', true),
-            new Player('AI 2', true),
-            new Player('AI 3', true),
-            new Player('AI 4', true),
-            new Player('AI 5', true),
-            new Player('AI 6', true),
-            new Player('AI 7', true)
-        ];
+    constructor(numberOfOpponents) {
+        this.players = [new Player('You')];
+        for (let i = 1; i <= numberOfOpponents; i++) {
+            this.players.push(new Player(`AI ${i}`, true, this));
+        }
         this.deck = new Deck();
         this.pot = 0;
         this.roundNumber = 0;
@@ -443,7 +438,7 @@ class Game {
         this.players.forEach(player => {
             player.folded = false;
             if (player.isAI) {
-                player.threshold = generateRandomPlayer(4);
+                player.threshold = generateRandomPlayer(this.players.length);
             }
             console.log(`Reset ${player.name}: chips = ${player.chips}, folded = ${player.folded}, threshold = ${player.threshold}`);
         });
@@ -462,7 +457,27 @@ class Game {
     }
 }
 
-const game = new Game();
+let game;
+
+document.addEventListener('DOMContentLoaded', () => {
+    const opponentSelection = document.getElementById('opponent-selection');
+    const gameContainer = document.getElementById('game-container');
+    const startGameButton = document.getElementById('start-game');
+    const opponentCount = document.getElementById('opponent-count');
+
+    startGameButton.addEventListener('click', () => {
+        const numberOfOpponents = parseInt(opponentCount.value, 10);
+        opponentSelection.style.display = 'none';
+        gameContainer.style.display = 'block';
+        startGame(numberOfOpponents);
+    });
+
+    function startGame(opponents) {
+        console.log(`Starting game with ${opponents} AI opponents`);
+        game = new Game(opponents);
+        game.renderGame();
+    }
+});
 
 document.getElementById('stay-button').addEventListener('click', () => {
     game.aiDecision();
